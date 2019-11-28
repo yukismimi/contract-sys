@@ -36,9 +36,9 @@ public class ContractController {
     }
 
     private void initData() {
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 100; i++) {
             Contract contract = new Contract();
-            contract.setTitle("title-"+i);
+            contract.setContractName("title-"+i);
             contract.setContent("content-"+i);
             contract.setFirstParty("firstParty-"+i);
             contract.setSecondParty("secondParty-"+i);

@@ -21,7 +21,7 @@ public class Contract {
     private long id;
 
     //合同名
-    private String title;
+    private String contractName;
 
     //合同内容
     private String content;
