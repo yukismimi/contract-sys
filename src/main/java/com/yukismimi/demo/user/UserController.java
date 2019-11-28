@@ -3,8 +3,10 @@ package com.yukismimi.demo.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Path;
+import java.util.Random;
 
+
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -33,5 +35,16 @@ public class UserController {
     @Autowired
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
+        initData();
+    }
+
+    private void initData(){
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            Random r = new Random();
+            user.setName("user-"+i);
+            user.setPhone(13912345678L);
+            userService.saveUser(user);
+        }
     }
 }

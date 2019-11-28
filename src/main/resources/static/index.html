@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>合同管理系统</title>
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+  <div id="app">
+    <el-container>
+    	<el-header>
+	    	<el-menu
+				class="el-menu-demo"
+				mode="horizontal"
+				background-color="#545c64"
+				text-color="#fff"
+				active-text-color="#ffd04b">
+			</el-menu>
+		</el-header>
+    	<el-main>
+			<template>
+				<el-tabs v-model="activeName" @tab-click="handleClick">
+					<el-tab-pane label="用户管理" name="user">
+						<el-table stripe
+								  :data="userData"
+								  style="width: 100%">
+							<el-table-column
+									prop="id"
+									label="ID"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="name"
+									label="姓名"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="phone"
+									label="手机"
+									width="180">
+							</el-table-column>
+						</el-table>
+					</el-tab-pane>
+					<el-tab-pane label="发票管理" name="receipt">
+						<el-table stripe
+								  :data="receiptData"
+								  style="width: 100%">
+							<el-table-column
+									prop="id"
+									label="ID"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="title"
+									label="发票"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="time"
+									label="时间"
+									width="280">
+							</el-table-column>
+							<el-table-column
+									prop="consume"
+									label="消费"
+									width="180">
+							</el-table-column>
+						</el-table>
+					</el-tab-pane>
+					<el-tab-pane label="合同管理" name="contract">
+						<el-table stripe
+								  :data="contractData"
+								  style="width: 100%">
+							<el-table-column
+									prop="id"
+									label="ID"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="title"
+									label="合同"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="content"
+									label="内容"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="firstParty"
+									label="甲方"
+									width="180">
+							</el-table-column>
+							<el-table-column
+									prop="secondParty"
+									label="乙方"
+									width="180">
+							</el-table-column>
+						</el-table>
+					</el-tab-pane>
+				</el-tabs>
+			</template>
+		</el-main>
+    	<el-footer></el-footer>
+    </el-container>
+  </div>
+</body>
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#app',
+      data: {
+      	activeName:'user',
+      	userData:[],
+      	receiptData:[],
+      	contractData:[]
+      },
+	  mounted(){
+		this.getUser();
+		this.getReceipt();
+		this.getContract();
+	  },
+      methods:{
+      	handleClick: function(tab, event){
+      		console.log(tab._props.label)
+      	},
+      	getUser: function(){
+      		this.$http.get('http://localhost:8080/user')
+      		.then((response)=>{
+      			this.userData = response.body
+      		})
+      	},
+      	getReceipt: function(){
+      		this.$http.get('http://localhost:8080/receipt')
+      		.then((response)=>{
+      			this.receiptData = response.body
+      		})
+      	},
+      	getContract: function(){
+      		this.$http.get('http://localhost:8080/contract')
+      		.then((response)=>{
+      			this.contractData = response.body
+      		})
+      	},
+      }
+    })
+  </script>
+</html>

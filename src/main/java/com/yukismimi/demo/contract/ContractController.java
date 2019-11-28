@@ -3,6 +3,7 @@ package com.yukismimi.demo.contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 public class ContractController {
 
@@ -31,5 +32,17 @@ public class ContractController {
     @Autowired
     public ContractController(ContractServiceImpl contractService) {
         this.contractService = contractService;
+        initData();
+    }
+
+    private void initData() {
+        for (int i = 1; i <= 10; i++) {
+            Contract contract = new Contract();
+            contract.setTitle("title-"+i);
+            contract.setContent("content-"+i);
+            contract.setFirstParty("firstParty-"+i);
+            contract.setSecondParty("secondParty-"+i);
+            contractService.saveContract(contract);
+        }
     }
 }

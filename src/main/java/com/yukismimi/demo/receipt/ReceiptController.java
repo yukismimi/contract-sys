@@ -3,6 +3,9 @@ package com.yukismimi.demo.receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+
+@CrossOrigin
 @RestController
 public class ReceiptController {
 
@@ -31,5 +34,15 @@ public class ReceiptController {
     @Autowired
     public ReceiptController(ReceiptServiceImpl receiptService) {
         this.receiptService = receiptService;
+        initData();
+    }
+
+    private void initData(){
+        for (int i = 0; i < 10; i++) {
+            Receipt receipt = new Receipt();
+            receipt.setConsume(100);
+            receipt.setTitle("title-"+i);
+            receiptService.saveReceipt(receipt);
+        }
     }
 }
