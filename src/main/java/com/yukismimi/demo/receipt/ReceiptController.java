@@ -38,7 +38,7 @@ public class ReceiptController {
     }
 
     private void initData(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             Receipt receipt = new Receipt();
             receipt.setConsume(100);
             receipt.setTitle("title-"+i);

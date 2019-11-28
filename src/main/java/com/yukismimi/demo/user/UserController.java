@@ -39,7 +39,7 @@ public class UserController {
     }
 
     private void initData(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             User user = new User();
             Random r = new Random();
             user.setName("user-"+i);
