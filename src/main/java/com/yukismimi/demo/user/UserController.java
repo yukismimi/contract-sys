@@ -10,7 +10,7 @@ import java.util.Random;
 @RestController
 public class UserController {
 
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @PostMapping("/user")
     public User saveUser(@RequestBody User User){
@@ -20,6 +20,11 @@ public class UserController {
     @GetMapping("/user/{id}")
     public User findById(@PathVariable long id){
         return userService.findById(id);
+    }
+
+    @PostMapping("/user/condition")
+    public Iterable<User> findByCondition(@RequestBody User user){
+        return userService.findByConditon(user);
     }
 
     @GetMapping("/user")
@@ -43,7 +48,7 @@ public class UserController {
             User user = new User();
             Random r = new Random();
             user.setName("user-"+i);
-            user.setPhone(13912345678L);
+            user.setPhone(String.format("139%08d", i));
             userService.saveUser(user);
         }
     }

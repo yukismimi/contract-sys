@@ -3,7 +3,6 @@ package com.yukismimi.demo.receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 
 @CrossOrigin
 @RestController
@@ -12,13 +11,18 @@ public class ReceiptController {
     private ReceiptServiceImpl receiptService;
 
     @PostMapping("/receipt")
-    public Receipt saveReceipt(@RequestBody Receipt Receipt){
-        return receiptService.saveReceipt(Receipt);
+    public Receipt saveReceipt(@RequestBody Receipt receipt){
+        return receiptService.saveReceipt(receipt);
     }
 
     @GetMapping("/receipt/{id}")
     public Receipt findById(@PathVariable long id){
         return receiptService.findById(id);
+    }
+
+    @PostMapping("/receipt/condition")
+    public Iterable<Receipt> findByCondition(@RequestBody Receipt receipt){
+        return receiptService.findByCondition(receipt);
     }
 
     @GetMapping("/receipt")

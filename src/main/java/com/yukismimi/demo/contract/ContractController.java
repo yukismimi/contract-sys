@@ -19,6 +19,11 @@ public class ContractController {
         return contractService.findById(id);
     }
 
+    @PostMapping("/contract/condition")
+    public Iterable<Contract> findByCondition(@RequestBody Contract contract){
+        return contractService.findByCondition(contract);
+    }
+
     @GetMapping("/contract")
     public Iterable<Contract> findAll(){
         return contractService.findAll();

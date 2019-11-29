@@ -22,5 +22,5 @@ public class User {
 
     private String name;
 
-    private long phone;
+    private String phone;
 }

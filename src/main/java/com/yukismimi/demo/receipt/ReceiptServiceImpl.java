@@ -16,6 +16,10 @@ public class ReceiptServiceImpl {
         return receiptRepository.findById(id).orElse(null);
     }
 
+    public Iterable<Receipt> findByCondition(Receipt receipt){
+        return receiptRepository.findAllByTitleLike(receipt.getTitle());
+    }
+
     public Iterable<Receipt> findAll(){
         return receiptRepository.findAll();
     }

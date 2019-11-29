@@ -12,22 +12,22 @@ public class UserServiceImpl {
     
     private UserRepository userRepository;
 
-    @PostMapping("/user")
     public User saveUser(User User){
         return userRepository.save(User);
     }
 
-    @GetMapping("/user/{id}")
     public User findById(@PathVariable long id){
         return userRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("/user")
+    public Iterable<User> findByConditon(User user){
+        return userRepository.findAllByNameLikeOrPhone(user.getName(), user.getPhone());
+    }
+
     public Iterable<User> findAll(){
         return userRepository.findAll();
     }
 
-    @DeleteMapping("/user/{id}")
     public void removeById(@PathVariable long id){
         userRepository.deleteById(id);
     }

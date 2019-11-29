@@ -1,5 +1,6 @@
 package com.yukismimi.demo.contract;
 
+import com.yukismimi.demo.receipt.Receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,10 @@ public class ContractServiceImpl {
 
     public Contract findById(long id){
         return contractRepository.findById(id).orElse(null);
+    }
+
+    public Iterable<Contract> findByCondition(Contract contract){
+        return contractRepository.findAllByContractNameLike(contract.getContractName());
     }
 
     public Iterable<Contract> findAll(){
