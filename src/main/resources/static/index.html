@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>合同管理系统</title>
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <style>
     .el-header {
-        background-color: #000000;
+        background-color: rgb(192, 192, 192);
         color: #333;
         line-height: 60px;
     }
@@ -22,8 +23,11 @@
     <el-container>
         <el-header>
             <el-row>
-                <el-col :span="2" :offset="23">
+                <el-col :span="1">
                     <el-button type="success" @click="buttonClick">新 增</el-button>
+                </el-col>
+                <el-col :span="1" :offset="22">
+                    <a href="/logout"><i class="el-icon-switch-button"></i></a>
                 </el-col>
             </el-row>
         </el-header>
@@ -150,6 +154,11 @@
                                     width="180">
                             </el-table-column>
                             <el-table-column
+                                    prop="dueTime"
+                                    label="到期时间"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column
                                     width="180">
                                 <template slot="header" slot-scope="scope">
                                     <el-input
@@ -198,7 +207,8 @@
                         <el-input v-model="item.title" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="时间" v-if="item.time != null">
-                        <el-input v-model="item.time" autocomplete="off"></el-input>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="item.time" format="yyyy-MM-dd"
+                                        value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="消费" v-if="item.consume != null">
                         <el-input v-model="item.consume" autocomplete="off"></el-input>
@@ -208,6 +218,10 @@
                     </el-form-item>
                     <el-form-item label="内容" v-if="item.content != null">
                         <el-input v-model="item.content" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="到期时间" v-if="item.content != null">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="item.dueTime" format="yyyy-MM-dd"
+                                        value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="甲方" v-if="item.firstParty != null">
                         <el-input v-model="item.firstParty" autocomplete="off"></el-input>
@@ -227,10 +241,13 @@
 </div>
 </body>
 <!-- import Vue before Element -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+<script src="/js/vue.js"></script>
 <!-- import JavaScript -->
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+<script src="/js/index.js"></script>
+<script src="/js/vue-resource.min.js"></script>
+<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>-->
 <script>
     let v = new Vue({
         el: '#app',
@@ -309,6 +326,11 @@
                             this.showList = this.contractData;
                             this.dataMap['contract'] = this.contractData;
                             this.totalMap['contract'] = response.body.length;
+                            let willExpireList = this.contractData
+                                .filter(contract => contract.willExpire === true)
+                                .map(contract => contract.id)
+                                .join();
+                            this.dueTimeNotification('下列id的合同将于七天内过期:\n' + willExpireList);
                         }
                     )
             },
@@ -410,17 +432,25 @@
             },
             buttonClick: function () {
                 this.dialogVisible = true;
-                if(this.activeName === 'user')
-                    this.item = {'name':'','phone':''};
-                if(this.activeName === 'contract')
-                    this.item = {'contractName':'','content':'','firstParty':'','secondParty':''}
+                if (this.activeName === 'user')
+                    this.item = {'name': '', 'phone': ''};
+                if (this.activeName === 'contract')
+                    this.item = {'contractName': '', 'content': '', 'firstParty': '', 'secondParty': ''}
                 if (this.activeName === 'receipt')
-                    this.item = {'title':'', 'consume': ''}
+                    this.item = {'title': '', 'consume': ''}
             },
             handleSizeChange: function () {
 
             },
             handleCurrentChange: function () {
+            },
+            dueTimeNotification(message) {
+                this.$notify({
+                    title: '到期提醒',
+                    message: message,
+                    type: 'warning',
+                    duration: 0
+                });
             }
         }
     })

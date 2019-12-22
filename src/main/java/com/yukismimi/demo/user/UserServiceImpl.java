@@ -1,16 +1,27 @@
 package com.yukismimi.demo.user;
 
+import com.yukismimi.demo.role.Role;
+import com.yukismimi.demo.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserDetailsService {
     
     private UserRepository userRepository;
+
+    private RoleRepository roleRepository;
 
     public User saveUser(User User){
         return userRepository.save(User);
@@ -31,9 +42,24 @@ public class UserServiceImpl {
     public void removeById(@PathVariable long id){
         userRepository.deleteById(id);
     }
-    
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userOptional = userRepository.findByName(username);
+        User user = userOptional.orElse(null);
+        List<GrantedAuthority> authorities = roleRepository.findAll()
+                .stream()
+                .map(Role::getDescription)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        return new org.springframework.security.core.userdetails.User(
+                username, user.getPassword(), authorities);
+    }
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 }

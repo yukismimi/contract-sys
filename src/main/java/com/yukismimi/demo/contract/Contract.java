@@ -2,11 +2,14 @@ package com.yukismimi.demo.contract;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -31,4 +34,10 @@ public class Contract {
 
     //乙方
     private String secondParty;
+
+    //到期时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dueTime;
+
+    private boolean willExpire;
 }

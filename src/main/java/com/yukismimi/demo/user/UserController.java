@@ -1,6 +1,7 @@
 package com.yukismimi.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
@@ -11,6 +12,8 @@ import java.util.Random;
 public class UserController {
 
     private UserServiceImpl userService;
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/user")
     public User saveUser(@RequestBody User User){
@@ -38,17 +41,20 @@ public class UserController {
     }
 
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         initData();
     }
 
     private void initData(){
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 10; i++) {
             User user = new User();
             Random r = new Random();
             user.setName("user-"+i);
             user.setPhone(String.format("139%08d", i));
+            user.setPassword(bCryptPasswordEncoder.encode("user-"+i));
+            user.setRole(1);
             userService.saveUser(user);
         }
     }
