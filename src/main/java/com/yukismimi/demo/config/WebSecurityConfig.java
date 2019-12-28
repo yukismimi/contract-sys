@@ -1,12 +1,11 @@
 package com.yukismimi.demo.config;
 
-import com.yukismimi.demo.user.UserServiceImpl;
+import com.yukismimi.demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserServiceImpl userService;
 
     @Autowired
-    MySuccessHandler mySuccessHandler;
+    CustomAuthenticationProvider customAuthenticationProvider;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -27,24 +26,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
-                .successHandler(mySuccessHandler)
-                .and()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        super.configure(auth);
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/static/css/**", "/static/js/**");
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+//                .antMatchers("/login.html").permitAll()
+//                .antMatchers("/register.html").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/user/**").hasAuthority("ROLE_USER")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+//                .loginPage("/login.html")
+//                .loginProcessingUrl("/user-login")
+//                .failureForwardUrl()
+//                .failureUrl()
+//                .successHandler(customSuccessHandler)
+//                .failureHandler(customFailureHandler)
+//                .successForwardUrl("/index.html")
+                .defaultSuccessUrl("/index.html", true)
+//                .failureUrl("/login.html")
+                .and()
+                .logout()
+//                .logoutSuccessUrl("/login.html")
+//                .logoutSuccessHandler(new MyLogoutSuccessHandler("/login.html"))
+                .and()
+                .csrf().disable();
     }
 }

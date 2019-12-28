@@ -1,4 +1,4 @@
-package com.yukismimi.demo.receipt;
+package com.yukismimi.demo.entity;
 
 import lombok.Data;
 import lombok.ToString;

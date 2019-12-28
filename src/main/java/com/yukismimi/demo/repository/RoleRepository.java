@@ -1,5 +1,6 @@
-package com.yukismimi.demo.role;
+package com.yukismimi.demo.repository;
 
+import com.yukismimi.demo.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

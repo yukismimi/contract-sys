@@ -1,12 +1,12 @@
-package com.yukismimi.demo.contract;
+package com.yukismimi.demo.service;
 
-import com.yukismimi.demo.receipt.Receipt;
+import com.yukismimi.demo.entity.Contract;
+import com.yukismimi.demo.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 @Service

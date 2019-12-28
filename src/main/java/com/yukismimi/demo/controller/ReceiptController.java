@@ -1,5 +1,7 @@
-package com.yukismimi.demo.receipt;
+package com.yukismimi.demo.controller;
 
+import com.yukismimi.demo.entity.Receipt;
+import com.yukismimi.demo.service.ReceiptServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

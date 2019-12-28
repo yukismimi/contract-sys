@@ -1,4 +1,4 @@
-package com.yukismimi.demo.user;
+package com.yukismimi.demo.entity;
 
 import lombok.Data;
 import lombok.ToString;
@@ -14,17 +14,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table
 @Data
 @ToString
-public class User {
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private long id;
 
-    private String name;
+    private String nickname;
 
     private String password;
-
-    private String phone;
-
-    private int role;
 }

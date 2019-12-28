@@ -1,5 +1,7 @@
-package com.yukismimi.demo.admin;
+package com.yukismimi.demo.controller;
 
+import com.yukismimi.demo.entity.Admin;
+import com.yukismimi.demo.service.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

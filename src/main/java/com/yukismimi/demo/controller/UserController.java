@@ -1,9 +1,12 @@
-package com.yukismimi.demo.user;
+package com.yukismimi.demo.controller;
 
+import com.yukismimi.demo.entity.User;
+import com.yukismimi.demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 
@@ -36,6 +39,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
+
     public void removeById(@PathVariable long id){
         userService.removeById(id);
     }
@@ -54,7 +58,10 @@ public class UserController {
             user.setName("user-"+i);
             user.setPhone(String.format("139%08d", i));
             user.setPassword(bCryptPasswordEncoder.encode("user-"+i));
-            user.setRole(1);
+            user.setRole(2);
+            user.setErrorTimes(0);
+            user.setNonLocked(true);
+            user.setLastLockedTime(LocalDateTime.MIN);
             userService.saveUser(user);
         }
     }

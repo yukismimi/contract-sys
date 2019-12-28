@@ -1,5 +1,7 @@
-package com.yukismimi.demo.admin;
+package com.yukismimi.demo.service;
 
+import com.yukismimi.demo.entity.Admin;
+import com.yukismimi.demo.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
