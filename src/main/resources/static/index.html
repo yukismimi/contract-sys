@@ -416,11 +416,15 @@
                 console.log(this.showList.length);
                 if (value !== '') {
                     if (this.activeName === 'user')
-                        this.showList = this.userData.filter(user => user.name.indexOf(value) !== -1 || user.phone.indexOf(value) !== -1);
+                        this.showList = this.userData.filter(user => user.name.indexOf(value) !== -1
+                            || user.phone.indexOf(value) !== -1
+                            || user.id.toString().indexOf(value) !== -1);
                     if (this.activeName === 'contract')
-                        this.showList = this.contractData.filter(contract => contract.contractName.indexOf(value) !== -1);
+                        this.showList = this.contractData.filter(contract => contract.id.toString().indexOf(value) !== -1
+                            || contract.contractName.indexOf(value) !== -1);
                     if (this.activeName === 'receipt')
-                        this.showList = this.receiptData.filter(receipt => receipt.title.indexOf(value) !== -1);
+                        this.showList = this.receiptData.filter(receipt => receipt.id.toString().indexOf(value) !== -1
+                            || receipt.title.indexOf(value) !== -1);
                 } else {
                     if (this.activeName === 'user')
                         this.showList = this.userData;

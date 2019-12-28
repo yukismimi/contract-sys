@@ -2,7 +2,6 @@ package com.yukismimi.demo.config;
 
 import com.yukismimi.demo.entity.User;
 import com.yukismimi.demo.repository.UserRepository;
-import com.yukismimi.demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
