@@ -40,4 +40,6 @@ public class Contract {
     private Date dueTime;
 
     private boolean willExpire;
+
+    private boolean Expired;
 }

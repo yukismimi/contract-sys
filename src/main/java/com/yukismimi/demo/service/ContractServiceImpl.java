@@ -16,10 +16,10 @@ public class ContractServiceImpl {
 
     public Contract saveContract(Contract contract){
         Duration timeElapsed = Duration.between(Instant.now(), contract.getDueTime().toInstant());
-        if (timeElapsed.toDays() <= 7)
-            contract.setWillExpire(true);
-        else
-            contract.setWillExpire(false);
+        boolean expired = timeElapsed.toDays() < 0;
+        boolean willExpire = !expired && timeElapsed.toDays() <= 7;
+        contract.setExpired(expired);
+        contract.setWillExpire(willExpire);
         return contractRepository.save(contract);
     }
 

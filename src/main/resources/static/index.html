@@ -330,7 +330,13 @@
                                 .filter(contract => contract.willExpire === true)
                                 .map(contract => contract.id)
                                 .join();
-                            this.dueTimeNotification('下列id的合同将于七天内过期:\n' + willExpireList);
+                            let expiredList = this.contractData
+                                .filter(contract => contract.expired === true)
+                                .map(contract => contract.id)
+                                .join();
+                            let message = (willExpireList.length > 0 ? '<p>下列id的合同将于七天内过期:</p><p>' + willExpireList + '</p>': '') +
+                                (expiredList.length > 0 ? '<p>下列id的合同已过期:</p><p>' + expiredList + '</p>': '');
+                            this.dueTimeNotification(message);
                         }
                     )
             },
@@ -451,6 +457,7 @@
             dueTimeNotification(message) {
                 this.$notify({
                     title: '到期提醒',
+                    dangerouslyUseHTMLString: true,
                     message: message,
                     type: 'warning',
                     duration: 0
